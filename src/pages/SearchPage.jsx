@@ -14,6 +14,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 export const SearchPage = () => {
 const [page,setPage] = useState(1)
 const [searchedWord,setSearchedWord] = useState('')
+const [query, setQuery] = useState('')
 const [pageType,setPageType] = useState('movie')
 const [fetchData,setFetchData] = useState(false)
 
@@ -21,34 +22,63 @@ const [fetchData,setFetchData] = useState(false)
 const urlSearch = `https://api.themoviedb.org/3/search/${pageType}?api_key=${import.meta.env.VITE_API_KEY}&include_adult=false&page=${page}`;
 
 
-
-  
-  
   const handleSearch=()=>{
    
     setFetchData(true)
+    setQuery(searchedWord)
+    
   }
 
 
 
   return (
     <>
-    <Box
-      component="form"
-      sx={{ '& > :not(style)': { m: 1, width: '25ch' }, display : 'flex' , flexDirection : 'row' , alignItems : 'center', justifyContent : 'center'  }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField value={searchedWord} id="stantard-basic" label="Search" variant="standard" onChange={(e)=>setSearchedWord(e.target.value)} />
-      <Button variant='outlined'  onClick={()=>handleSearch()}>Search</Button>
+    <div className="max-w-screen-lg mx-auto mt-16 px-4">
       
-    </Box>
-    <Box  sx={{ '& > :not(style)': { m: 1, width: '25ch' }, display : 'flex' , flexDirection : 'row' , alignItems : 'center', justifyContent : 'center'  }}>
-    <Button  color="success" variant="contained"  onClick={()=>setPageType('tv')}>Series</Button>
-    <Button variant="contained" color="success"  onClick={()=>setPageType('movie')}>Movies</Button>
-    </Box>
+      <div className="flex flex-col sm:flex-row items-center justify-center mb-6">
+        <input
+          type="text"
+          className="w-full sm:w-80 p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={searchedWord}
+          placeholder="Search..."
+          onChange={(e) => setSearchedWord(e.target.value)}
+        />
+        <button
+          className="mt-4 sm:mt-0 sm:ml-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-lg transition-transform transform hover:scale-105"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+      </div>
+
+     
+      <div className="flex justify-center space-x-4 mb-8">
+        <button
+          className={`px-6 py-2 rounded-lg text-white font-bold transition-all transform bg-gray-800`}
+          onClick={() => setPageType('tv')}
+        >
+          Series
+        </button>
+        <button
+          className={`px-6 py-2 rounded-lg text-white font-bold transition-all transform bg-gray-800`}
+          onClick={() => setPageType('movie')}
+        >
+          Movies
+        </button>
+      </div>
+
+      {fetchData && (
+        <Content
+          url={urlSearch}
+          searchedWord={query}
+          pageType={pageType}
+          setFetchData={setFetchData}
+          fetchData={fetchData}
+        />
+      )}
+    </div>
     
-    {fetchData && <Content url={urlSearch} searchedWord={searchedWord} pageType={pageType} setFetchData={setFetchData} fetchData={fetchData} />}
+    {fetchData && <Content url={urlSearch} searchedWord={query} pageType={pageType} setFetchData={setFetchData} fetchData={fetchData} />}
     </>
   )
 }

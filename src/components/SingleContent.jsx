@@ -16,24 +16,24 @@ export const SingleContent = ({id,poster_path,title,name,first_air_date,release_
 
   return (
   <>
-    <Card sx={{ width: 345 }}>
-    <CardActionArea onClick={()=>{setOpen(true)}}>
-      <CardMedia
-        sx={{ height: 400 }}
-        image={poster_path ? img_300+poster_path : imgUnavailable}
-        title={title||name}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title||name}
-        </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary',display:'flex',justifyContent: 'space-between' }}>
-          <span>{media_type}</span><span>{first_air_date||release_date}</span>
-        </Typography>
-        <span style={{position: 'absolute',top:'0',right:'0',color: 'white',border: '1px solid white',borderRadius: '20%',padding: '2px'}}>{vote_average.toFixed(1)}</span>
-      </CardContent>
-      </CardActionArea>
-    </Card>
+  
+    
+   
+      <a class="relative shadow-lg shadow-cyan-500/50 bg-gray-900 block p-6 border border-gray-100 rounded-lg max-w-sm mx-auto mt-24" href="#">
+  
+  <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+
+  <div class="my-4">
+      <img src={poster_path ? img_300+poster_path : imgUnavailable} alt="" />
+      <h2 class="text-white text-2xl font-bold pb-2">{title||name}</h2>
+      <p class="text-gray-300 py-1">{first_air_date||release_date}</p>
+  </div>
+
+  <div class="flex justify-end">
+      <button class='px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold  transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg' onClick={()=>{setOpen(true)}}>More Info</button>
+  </div>
+</a>
+      
     {open && <DetailModal open={open} setOpen={setOpen} id={id}  media_type={media_type||type}/>}
     </>
   );

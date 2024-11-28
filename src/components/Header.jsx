@@ -39,61 +39,47 @@ export const Header=()=> {
 
   return (
     <>
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <LocalMoviesIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-         
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
-            >
-              {pages.map((page) => (
-                
-                <NavLink key={page.name} to={page.path}>
-                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page.name}</Typography>
-                </MenuItem>
-                </NavLink>
-              ))}
-            </Menu>
-          </Box>
-          <LocalMoviesIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-        
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-                <NavLink key={page.name} to={page.path} className={({ isActive }) =>   isActive ? "active" : "inactive" }>
-                <Button  onClick={handleCloseNavMenu} sx={{ my: 2, color: 'inherit', display: 'block' }}>{page.name}</Button> 
-              </NavLink>
-            ))}
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-    <Outlet/>
+    <header className="bg-gray-900 shadow-lg">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+          <div className="relative flex items-center justify-between h-16">
+            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+              <button
+                type="button"
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                onClick={handleOpenNavMenu}
+              >
+                <span className="sr-only">Open main menu</span>
+                <MenuIcon className="block h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex-shrink-0 text-white text-2xl font-bold">
+                <LocalMoviesIcon className="inline-block mr-2 text-blue-400" /> Movies/Series
+              </div>
+              <div className="hidden sm:block sm:ml-6">
+                <div className="flex space-x-4">
+                  {pages.map((page) => (
+                    <NavLink
+                      key={page.name}
+                      to={page.path}
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'text-white px-3 py-2 rounded-md text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+                      }
+                    >
+                      {page.name}
+                    </NavLink>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <Outlet />
     </>
   );
   

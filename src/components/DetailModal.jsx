@@ -42,31 +42,44 @@ export const DetailModal=({media_type,id,type,open,setOpen})=>{
     
 
   return (
-    <div>
-      
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      > 
-        <Box sx={style}>
-          <img style={{width:'100%'}} src={data.backdrop_path? img_500+data.backdrop_path : noPictureLandscape} alt={data?.title || data?.name} />
-          <Typography id="modal-modal-description" sx={{ mt: 2,display : 'flex', flexDirection : 'column', alignItems: 'center' }}>
-            <span><b>{data?.title ||data?.name}</b><b>{data?.release_date || data?.first_air_date}</b></span>
-            <span style={{color: 'blue', fontStyle: 'italic'}}>{data.tagline}</span>
-            <span>{data.overview}</span>
-          </Typography>
-          <Carousel id={id} media_type={media_type}/>
-          {dataVideos?.results && dataVideos?.results.length>0 &&
-            <div>
-              <Button className='video' variant='contained' startIcon={<YouTubeIcon/>} target='_blank' href={`https://www.YouTube.com/watch?v=${dataVideos?.results[0].key}`}>
-                  Watch The Trailer
-              </Button>
-            </div>
-          }
-        </Box>
-      </Modal>
+    <div className={`fixed inset-0 flex justify-center items-center z-50 ${open ? 'block' : 'hidden'}`}>
+    <div className="bg-black bg-opacity-50 absolute inset-0" onClick={handleClose}></div>
+    <div className="relative bg-white rounded-lg shadow-lg w-full sm:w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 p-6 overflow-y-auto max-h-[90vh]">
+      <button
+        onClick={handleClose}
+        className="absolute top-4 right-4 text-white bg-gray-800 p-2 rounded-full hover:bg-gray-600 focus:outline-none"
+      >
+        &times;
+      </button>
+      <img
+        className="w-full rounded-lg"
+        src={data.backdrop_path ? img_500 + data.backdrop_path : noPictureLandscape}
+        alt={data?.title || data?.name}
+      />
+      <div className="mt-4 flex flex-col items-center">
+        <h2 className="text-2xl font-semibold text-gray-800">{data?.title || data?.name}</h2>
+        <p className="text-gray-600 text-sm italic mt-2">{data?.release_date || data?.first_air_date}</p>
+        <p className="text-blue-500 italic mt-2">{data?.tagline}</p>
+        <p className="text-gray-700 mt-4">{data?.overview}</p>
+      </div>
+
+      <Carousel id={id} media_type={media_type} />
+
+      {dataVideos?.results && dataVideos?.results.length > 0 && (
+        <div className="mt-4">
+          <a
+            href={`https://www.youtube.com/watch?v=${dataVideos?.results[0].key}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition duration-200"
+          >
+            <YouTubeIcon className="mr-2" />
+            Watch The Trailer
+          </a>
+        </div>
+      )}
     </div>
+  </div>
+    
   );
 }
